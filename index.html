@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        Here are the Java programs for the tasks you've described:<br>
+
+Program to accept two numbers and handle division by zero:<br>
+java<br>
+Copy code<br>
+import java.util.Scanner;<br>
+
+public class DivideByZeroExceptionExample {<br>
+    public static void main(String[] args) {<br>
+        Scanner scanner = new Scanner(System.in);<br>
+
+        System.out.print("Enter first number: ");<br>
+        int num1 = scanner.nextInt();<br>
+
+        System.out.print("Enter second number: ");<br>
+        int num2 = scanner.nextInt();<br>
+
+        try {<br>
+            if (num2 == 0) {<br>
+                throw new ArithmeticException("Cannot divide by zero!");<br>
+            } else {<br>
+                System.out.println("Result of division: " + num1 / num2);<br>
+            }
+        } catch (ArithmeticException e) {<br>
+        }<br>
+        scanner.close();<br>
+    }<br>
+}<br>
+Program to accept elements of an integer array and handle ArrayIndexOutOfBoundsException:<br>
+java<br>
+Copy code<br>
+import java.util.Scanner;<br>
+
+public class ArrayIndexOutOfBoundsExceptionExample {<br>
+    public static void main(String[] args) {<br>
+        Scanner scanner = new Scanner(System.in);<br>
+
+        System.out.print("Enter the size of the array: ");<br>
+        int n = scanner.nextInt();<br>
+
+        int[] arr = new int[n];<br>
+
+        try {<br>
+            System.out.println("Enter elements of the array:");<br>
+            for (int i = 0; i < n; i++) {<br>
+                arr[i] = scanner.nextInt();<br>
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {<br>
+            System.out.println("Exception caught: " + e.getMessage());<br>
+        }<br>
+
+        System.out.println("Array elements:");<br>
+        for (int i = 0; i < arr.length; i++) {<br>
+            System.out.println(arr[i]);<br>
+        }
+
+        scanner.close();<br>
+    }
+}
+For PART 2, I'll need the code for the Student class to integrate the exceptions you mentioned. Please provide the code for the Student class.<br>
+    </p>
+    <p>
+        4<br>
+        import java.util.Scanner;<br>
+
+class Customer {<br>
+    protected String name;<br>
+    protected int age;<br>
+    protected long contact;<br>
+
+    public Customer(String name, int age, long contact) {<br>
+        this.name = name;<br>
+        this.age = age;<br>
+        this.contact = contact;<br>
+    }<br>
+
+    public void getCustomers() {<br>
+        Scanner scanner = new Scanner(System.in);<br>
+        System.out.print("Name: ");<br>
+        name = scanner.nextLine();<br>
+        System.out.print("Age: ");<br>
+        age = scanner.nextInt();<br>
+        System.out.print("Contact Number: ");<br>
+        contact = scanner.nextLong();<br>
+    }<br>
+
+    public void showCustomers() {<br>
+        System.out.println(name + "\t" + age + "\t" + contact);<br>
+    }<br>
+}<br>
+
+class Account extends Customer {<br>
+    private int accNo;<br>
+    private double balance;<br>
+
+    public Account(String name, int age, long contact, int accNo, double balance) {<br>
+        super(name, age, contact);<br>
+        this.accNo = accNo;<br>
+        this.balance = balance;<br>
+    }<br>
+
+    public void deposit(double amount) {<br>
+        balance += amount;<br>
+        System.out.println("Transaction Successful!");<br>
+        System.out.println("AccountNo: " + accNo);<br>
+        System.out.println("Final balance: " + balance);<br>
+    }<br>
+
+    public void withdraw(double amount) {<br>
+        if (balance <= 0 || amount > balance) {<br>
+            System.out.println("Sorry! You don’t have a sufficient balance in your account.");<br>
+        } else {<br>
+            balance -= amount;<br>
+            System.out.println("Transaction Successful!");<br>
+            System.out.println("AccountNo: " + accNo);<br>
+            System.out.println("Final balance: " + balance);<br>
+        }<br>
+    }<br>
+
+    public void transfer(Account receiver, double amount) {<br>
+        if (balance <= 0 || amount > balance) {<br>
+            System.out.println("Sorry! You don’t have a sufficient balance in your account.");<br>
+        } else {<br>
+            balance -= amount;<br>
+            receiver.balance += amount;<br>
+            System.out.println("Transaction Successful!");<br>
+            System.out.println("AccountNo: " + accNo + " Balance: " + balance);<br>
+            System.out.println("AccountNo: " + receiver.accNo + " Balance: " + receiver.balance);<br>
+        }<br>
+    }<br>
+}<br>
+
+public class Main {<br>
+    public static void main(String[] args) {<br>
+        Scanner scanner = new Scanner(System.in);<br>
+        System.out.print("Enter the number of customers: ");<br>
+        int n = scanner.nextInt();<br>
+        Account[] customers = new Account[n];<br>
+
+        for (int i = 0; i < n; i++) {<br>
+            System.out.println("Enter details for customer " + (i + 1) + ":");<br>
+            System.out.print("Name: ");<br>
+            String name = scanner.next();<br>
+            System.out.print("Age: ");<br>
+            int age = scanner.nextInt();<br>
+            System.out.print("Contact Number: ");<br>
+            long contact = scanner.nextLong();<br>
+            System.out.print("Account Number: ");<br>
+            int accNo = scanner.nextInt();<br>
+            System.out.print("Balance: ");<br>
+            double balance = scanner.nextDouble();<br>
+            customers[i] = new Account(name, age, contact, accNo, balance);<br>
+        }<br>
+
+        System.out.println("\nCustomer Details:");<br>
+        System.out.println("Name\tAge\tContact");<br>
+        for (int i = 0; i < n; i++) {<br>
+            customers[i].showCustomers();<br>
+        }<br>
+
+        // Example usage of functionalities<br>
+        customers[0].deposit(10000);<br>
+        customers[0].withdraw(30000);<br>
+        customers[0].withdraw(10000);<br>
+        customers[0].transfer(customers[1], 30000);<br>
+        customers[0].transfer(customers[1], 10000);<br>
+
+       
+    }<br>
+}<br>
+
+
+    </p>
+</body>
+</html>
