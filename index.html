@@ -69,8 +69,7 @@ public class ArrayIndexOutOfBoundsExceptionExample {<br>
 For PART 2, I'll need the code for the Student class to integrate the exceptions you mentioned. Please provide the code for the Student class.<br>
     </p>
     <p>
-        4<br>
-        import java.util.Scanner;<br>
+       import java.util.Scanner;<br>
 
 class Customer {<br>
     protected String name;<br>
@@ -93,7 +92,7 @@ class Customer {<br>
         contact = scanner.nextLong();<br>
     }<br>
 
-    public void showCustomers() {<br>
+    public void showCustomers() {
         System.out.println(name + "\t" + age + "\t" + contact);<br>
     }<br>
 }<br>
@@ -159,7 +158,7 @@ public class Main {<br>
             System.out.print("Balance: ");<br>
             double balance = scanner.nextDouble();<br>
             customers[i] = new Account(name, age, contact, accNo, balance);<br>
-        }<br>
+        }
 
         System.out.println("\nCustomer Details:");<br>
         System.out.println("Name\tAge\tContact");<br>
@@ -167,14 +166,73 @@ public class Main {<br>
             customers[i].showCustomers();<br>
         }<br>
 
-        // Example usage of functionalities<br>
-        customers[0].deposit(10000);<br>
-        customers[0].withdraw(30000);<br>
-        customers[0].withdraw(10000);<br>
-        customers[0].transfer(customers[1], 30000);<br>
-        customers[0].transfer(customers[1], 10000);<br>
+        int choice = 0;<br>
+        while (choice != 4) {<br>
+            System.out.println("\nChoose an action:");<br>
+            System.out.println("1. Deposit");<br>
+            System.out.println("2. Withdraw");<br>
+            System.out.println("3. Transfer");<br>
+            System.out.println("4. Exit");<br>
+            System.out.print("Enter your choice: ");<br>
+            choice = scanner.nextInt();<br>
 
-       
+            switch (choice) {<br>
+                case 1:<br>
+                    System.out.print("Enter AccountNo: ");<br>
+                    int depositAccountNo = scanner.nextInt();<br>
+                    System.out.print("Enter the amount you wish to deposit: ");<br>
+                    double depositAmount = scanner.nextDouble();<br>
+                    for (Account customer : customers) {<br>
+                        if (customer.accNo == depositAccountNo) {<br>
+                            customer.deposit(depositAmount);<br>
+                            break;<br>
+                        }<br>
+                    }<br>
+                    break;<br>
+                case 2:<br>
+                    System.out.print("Enter AccountNo: ");<br>
+                    int withdrawAccountNo = scanner.nextInt();<br>
+                    System.out.print("Enter the amount you wish to withdraw: ");<br>
+                    double withdrawAmount = scanner.nextDouble();<br>
+                    for (Account customer : customers) {<br>
+                        if (customer.accNo == withdrawAccountNo) {<br>
+                            customer.withdraw(withdrawAmount);<br>
+                            break;<br>
+                        }<br>
+                    }<br>
+                    break;<br>
+                case 3:<br>
+                    System.out.print("Enter your AccountNo: ");<br>
+                    int senderAccountNo = scanner.nextInt();<br>
+                    System.out.print("Enter AccountNo you wish to transfer: ");<br>
+                    int receiverAccountNo = scanner.nextInt();<br>
+                    System.out.print("Enter the amount you wish to transfer: ");<br>
+                    double transferAmount = scanner.nextDouble();<br>
+                    Account sender = null;<br>
+                    Account receiver = null;<br>
+                    for (Account customer : customers) {<br>
+                        if (customer.accNo == senderAccountNo) {<br>
+                            sender = customer;<br>
+                        }<br>
+                        if (customer.accNo == receiverAccountNo) {<br>
+                            receiver = customer;<br>
+                        }<br>
+                    }<br>
+                    if (sender != null && receiver != null) {<br>
+                        sender.transfer(receiver, transferAmount);<br>
+                    } else {<br>
+                        System.out.println("Invalid account numbers.");<br>
+                    }<br>
+                    break;<br>
+                case 4:<br>
+                    System.out.println("Exiting...");<br>
+                    break;<br>
+                default:<br>
+                    System.out.println("Invalid choice! Please choose again.");<br>
+            }<br>
+        }<br>
+
+        scanner.close();<br>
     }<br>
 }<br>
 
