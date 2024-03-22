@@ -7,234 +7,451 @@
 </head>
 <body>
     <p>
-        Here are the Java programs for the tasks you've described:<br>
+       <h1>5 part2</h1>
+        <p>
+    import java.util.Scanner;<br><br>
 
-Program to accept two numbers and handle division by zero:<br>
-java<br>
-Copy code<br>
-import java.util.Scanner;<br>
+    class BankAccount {<br>
+        String aid;<br>
+        String aname;<br>
+        double balance;<br><br>
 
-public class DivideByZeroExceptionExample {<br>
-    public static void main(String[] args) {<br>
-        Scanner scanner = new Scanner(System.in);<br>
+        public void deposit(double amount) {<br>
+            balance += amount;<br>
+            System.out.println("Deposited Rs " + amount);<br>
+        }<br><br>
 
-        System.out.print("Enter first number: ");<br>
-        int num1 = scanner.nextInt();<br>
-
-        System.out.print("Enter second number: ");<br>
-        int num2 = scanner.nextInt();<br>
-
-        try {<br>
-            if (num2 == 0) {<br>
-                throw new ArithmeticException("Cannot divide by zero!");<br>
+        public void withdraw(double amount, double minBalance) {<br>
+            if (balance - amount >= minBalance) {<br>
+                balance -= amount;<br>
+                System.out.println("Withdrawn Rs " + amount);<br>
             } else {<br>
-                System.out.println("Result of division: " + num1 / num2);<br>
-            }
-        } catch (ArithmeticException e) {<br>
+                System.out.println("Insufficient balance for withdrawal.");<br>
+            }<br>
+        }<br><br>
+
+        public void showBalance() {<br>
+            System.out.println("Account Balance: Rs " + balance);<br>
         }<br>
-        scanner.close();<br>
+    }<br><br>
+
+    class Savings extends BankAccount {<br>
+        float interestRate;<br><br>
+
+        public void calcInterest() {<br>
+            double interest = balance * (interestRate / 100) / 12;<br>
+            System.out.println("Monthly interest received: Rs " + interest);<br>
+        }<br>
+    }<br><br>
+
+    class Current extends BankAccount {<br>
+        float interestRate;<br><br>
+
+        public void calcInterest() {<br>
+            double interest = balance * (interestRate / 100) / 12;<br>
+            System.out.println("Monthly interest received: Rs " + interest);<br>
+        }<br><br>
+
+        @Override<br>
+        public void withdraw(double amount, double minBalance) {<br>
+            if (balance - amount >= minBalance) {<br>
+                balance -= amount;<br>
+                System.out.println("Withdrawn Rs " + amount);<br>
+            } else {<br>
+                System.out.println("Insufficient balance for withdrawal.");<br>
+            }<br>
+        }<br>
+    }<br><br>
+
+    public class Main {<br>
+        public static void main(String[] args) {<br>
+            Scanner scanner = new Scanner(System.in);<br><br>
+
+            // Creating objects<br>
+            Savings savingsAccount = new Savings();<br>
+            Current currentAccount = new Current();<br><br>
+
+            // Deposits<br>
+            savingsAccount.deposit(5000);<br>
+            currentAccount.deposit(10000);<br><br>
+
+            // Monthly interest calculation<br>
+            savingsAccount.interestRate = 10;<br>
+            currentAccount.interestRate = 15;<br><br>
+
+            savingsAccount.calcInterest();<br>
+            currentAccount.calcInterest();<br><br>
+
+            // Withdrawals<br>
+            System.out.print("Enter amount to withdraw from Savings Account: ");<br>
+            double withdrawalAmountSavings = scanner.nextDouble();<br>
+            savingsAccount.withdraw(withdrawalAmountSavings, 1000);<br><br>
+
+            System.out.print("Enter amount to withdraw from Current Account: ");<br>
+            double withdrawalAmountCurrent = scanner.nextDouble();<br>
+            currentAccount.withdraw(withdrawalAmountCurrent, 10000);<br><br>
+
+            // Showing final balances<br>
+            savingsAccount.showBalance();<br>
+            currentAccount.showBalance();<br><br>
+
+            scanner.close();<br>
+        }<br>
+    }<br>
+</p>
+<h1> 6</h1>
+    import java.util.Scanner;<br>
+<br>
+class Student {<br>
+    private int enr_no;<br>
+    private String s_name;<br>
+    private String dept;<br>
+<br>
+    public Student(int enr_no, String s_name, String dept) {<br>
+        this.enr_no = enr_no;<br>
+        this.s_name = s_name;<br>
+        this.dept = dept;<br>
+    }<br>
+<br>
+    public int getEnr_no() {<br>
+        return enr_no;<br>
+    }<br>
+<br>
+    public void setEnr_no(int enr_no) {<br>
+        this.enr_no = enr_no;<br>
+    }<br>
+<br>
+    public String getS_name() {<br>
+        return s_name;<br>
+    }<br>
+<br>
+    public void setS_name(String s_name) {<br>
+        this.s_name = s_name;<br>
+    }<br>
+<br>
+    public String getDept() {<br>
+        return dept;<br>
+    }<br>
+<br>
+    public void setDept(String dept) {<br>
+        this.dept = dept;<br>
+    }<br>
+<br>
+    // Method overloading for calcCGPA<br>
+    public double calcCGPA(double percentage) {<br>
+        return percentage / 9.5;<br>
+    }<br>
+<br>
+    public double calcCGPA(int totalGradePoint) {<br>
+        return totalGradePoint / 5.0; // Assuming totalGradePoint is out of 50<br>
+    }<br>
+<br>
+    public double calcCGPA(double sgpa1, double sgpa2) {<br>
+        return (sgpa1 + sgpa2) / 2.0; // Assuming sgpa1 and sgpa2 are SGPA of sem1 and sem2 respectively<br>
     }<br>
 }<br>
-Program to accept elements of an integer array and handle ArrayIndexOutOfBoundsException:<br>
-java<br>
-Copy code<br>
-import java.util.Scanner;<br>
-
-public class ArrayIndexOutOfBoundsExceptionExample {<br>
+<br>
+public class CalcCGPA {<br>
     public static void main(String[] args) {<br>
         Scanner scanner = new Scanner(System.in);<br>
-
-        System.out.print("Enter the size of the array: ");<br>
-        int n = scanner.nextInt();<br>
-
-        int[] arr = new int[n];<br>
-
-        try {<br>
-            System.out.println("Enter elements of the array:");<br>
-            for (int i = 0; i < n; i++) {<br>
-                arr[i] = scanner.nextInt();<br>
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {<br>
-            System.out.println("Exception caught: " + e.getMessage());<br>
-        }<br>
-
-        System.out.println("Array elements:");<br>
-        for (int i = 0; i < arr.length; i++) {<br>
-            System.out.println(arr[i]);<br>
-        }
-
+<br>
+        // Input basic details of the student<br>
+        System.out.println("Enter Enrollment Number:");<br>
+        int enr_no = scanner.nextInt();<br>
+        scanner.nextLine(); // Consume newline<br>
+        System.out.println("Enter Student Name:");<br>
+        String s_name = scanner.nextLine();<br>
+        System.out.println("Enter Department:");<br>
+        String dept = scanner.nextLine();<br>
+<br>
+        // Create student object<br>
+        Student student = new Student(enr_no, s_name, dept);<br>
+<br>
+        // Calculate CGPA using different methods<br>
+        System.out.println("Enter Percentage:");<br>
+        double percentage = scanner.nextDouble();<br>
+        System.out.println("CGPA based on Percentage: " + student.calcCGPA(percentage));<br>
+<br>
+        System.out.println("Enter Total Grade Point Obtained (out of 50):");<br>
+        int totalGradePoint = scanner.nextInt();<br>
+        System.out.println("CGPA based on Total Grade Point Obtained: " + student.calcCGPA(totalGradePoint));<br>
+<br>
+        System.out.println("Enter SGPA of Semester 1:");<br>
+        double sgpa1 = scanner.nextDouble();<br>
+        System.out.println("Enter SGPA of Semester 2:");<br>
+        double sgpa2 = scanner.nextDouble();<br>
+        System.out.println("CGPA based on SGPA of Semester 1 and Semester 2: " + student.calcCGPA(sgpa1, sgpa2));<br>
+<br>
         scanner.close();<br>
-    }
+    }<br>
 }
-For PART 2, I'll need the code for the Student class to integrate the exceptions you mentioned. Please provide the code for the Student class.<br>
-    </p>
-    <p>
-       import java.util.Scanner;<br>
-
-class Customer {<br>
-    protected String name;<br>
-    protected int age;<br>
-    protected long contact;<br>
-
-    public Customer(String name, int age, long contact) {<br>
-        this.name = name;<br>
-        this.age = age;<br>
-        this.contact = contact;<br>
-    }<br>
-
-    public void getCustomers() {<br>
-        Scanner scanner = new Scanner(System.in);<br>
-        System.out.print("Name: ");<br>
-        name = scanner.nextLine();<br>
-        System.out.print("Age: ");<br>
-        age = scanner.nextInt();<br>
-        System.out.print("Contact Number: ");<br>
-        contact = scanner.nextLong();<br>
-    }<br>
-
-    public void showCustomers() {
-        System.out.println(name + "\t" + age + "\t" + contact);<br>
-    }<br>
-}<br>
-
-class Account extends Customer {<br>
-    private int accNo;<br>
-    private double balance;<br>
-
-    public Account(String name, int age, long contact, int accNo, double balance) {<br>
-        super(name, age, contact);<br>
-        this.accNo = accNo;<br>
-        this.balance = balance;<br>
-    }<br>
-
-    public void deposit(double amount) {<br>
-        balance += amount;<br>
-        System.out.println("Transaction Successful!");<br>
-        System.out.println("AccountNo: " + accNo);<br>
-        System.out.println("Final balance: " + balance);<br>
-    }<br>
-
-    public void withdraw(double amount) {<br>
-        if (balance <= 0 || amount > balance) {<br>
-            System.out.println("Sorry! You don’t have a sufficient balance in your account.");<br>
+<h1> 7 </h1>
+    
+import java.util.Scanner;<br>
+public class SingleTennisGame {<br>
+    private String player1_name;<br>
+    private String player2_name;<br>
+    private int player1_score;<br>
+    private int player2_score;<br>
+    private String Result;<br><br>
+    
+    // Get methods<br>
+    public String getPlayer1_name() {<br>
+        return player1_name;<br>
+    }<br><br>
+    
+    public String getPlayer2_name() {<br>
+        return player2_name;<br>
+    }<br><br>
+    
+    public int getPlayer1_score() {<br>
+        return player1_score;<br>
+    }<br><br>
+    
+    public int getPlayer2_score() {<br>
+        return player2_score;<br>
+    }<br><br>
+    
+    public String getResult() {<br>
+        return Result;<br>
+    }<br><br>
+    
+    // Set methods<br>
+    public void setNames(String player1_name, String player2_name) {<br>
+        this.player1_name = player1_name;<br>
+        this.player2_name = player2_name;<br>
+    }<br><br>
+    
+    public void setScores(int player1_score, int player2_score) {<br>
+        if (player1_score &lt; 0 || player1_score &gt; 4 || player2_score &lt; 0 || player2_score &gt; 4) {<br>
+            this.player1_score = 0;<br>
+            this.player2_score = 0;<br>
+            this.Result = "error";<br>
+        } else if (player1_score == 4 &amp;&amp; player2_score == 4) {<br>
+            this.player1_score = 0;<br>
+            this.player2_score = 0;<br>
+            this.Result = "tie";<br>
         } else {<br>
-            balance -= amount;<br>
-            System.out.println("Transaction Successful!");<br>
-            System.out.println("AccountNo: " + accNo);<br>
-            System.out.println("Final balance: " + balance);<br>
+            this.player1_score = player1_score;<br>
+            this.player2_score = player2_score;<br>
+            if (player1_score &gt; player2_score)<br>
+                this.Result = "team1 win";<br>
+            else<br>
+                this.Result = "team2 win";<br>
         }<br>
     }<br>
+}<br><br>
 
-    public void transfer(Account receiver, double amount) {<br>
-        if (balance <= 0 || amount > balance) {<br>
-            System.out.println("Sorry! You don’t have a sufficient balance in your account.");<br>
-        } else {<br>
-            balance -= amount;<br>
-            receiver.balance += amount;<br>
-            System.out.println("Transaction Successful!");<br>
-            System.out.println("AccountNo: " + accNo + " Balance: " + balance);<br>
-            System.out.println("AccountNo: " + receiver.accNo + " Balance: " + receiver.balance);<br>
-        }<br>
+public class DoublesTennisGame extends SingleTennisGame {<br>
+    private String team1_name;<br>
+    private String team2_name;<br><br>
+    
+    // Override setNames method<br>
+    @Override<br>
+    public void setNames(String team1_name, String team2_name) {<br>
+        this.team1_name = team1_name;<br>
+        this.team2_name = team2_name;<br>
     }<br>
-}<br>
+}<br><br>
 
 public class Main {<br>
     public static void main(String[] args) {<br>
         Scanner scanner = new Scanner(System.in);<br>
-        System.out.print("Enter the number of customers: ");<br>
-        int n = scanner.nextInt();<br>
-        Account[] customers = new Account[n];<br>
-
-        for (int i = 0; i < n; i++) {<br>
-            System.out.println("Enter details for customer " + (i + 1) + ":");<br>
-            System.out.print("Name: ");<br>
-            String name = scanner.next();<br>
-            System.out.print("Age: ");<br>
-            int age = scanner.nextInt();<br>
-            System.out.print("Contact Number: ");<br>
-            long contact = scanner.nextLong();<br>
-            System.out.print("Account Number: ");<br>
-            int accNo = scanner.nextInt();<br>
-            System.out.print("Balance: ");<br>
-            double balance = scanner.nextDouble();<br>
-            customers[i] = new Account(name, age, contact, accNo, balance);<br>
-        }
-
-        System.out.println("\nCustomer Details:");<br>
-        System.out.println("Name\tAge\tContact");<br>
-        for (int i = 0; i < n; i++) {<br>
-            customers[i].showCustomers();<br>
+        System.out.println("Enter 'single' for Single Tennis Game or 'double' for Doubles Tennis Game:");<br>
+        String gameType = scanner.nextLine();<br><br>
+        
+        SingleTennisGame singleTennisGame = null;<br>
+        DoublesTennisGame doublesTennisGame = null;<br><br>
+        
+        if (gameType.equalsIgnoreCase("single")) {<br>
+            singleTennisGame = new SingleTennisGame();<br>
+            System.out.println("Enter player 1 name:");<br>
+            String player1_name = scanner.nextLine();<br>
+            System.out.println("Enter player 2 name:");<br>
+            String player2_name = scanner.nextLine();<br>
+            singleTennisGame.setNames(player1_name, player2_name);<br>
+            System.out.println("Enter player 1 score:");<br>
+            int player1_score = scanner.nextInt();<br>
+            System.out.println("Enter player 2 score:");<br>
+            int player2_score = scanner.nextInt();<br>
+            singleTennisGame.setScores(player1_score, player2_score);<br><br>
+            
+            // Display details<br>
+            System.out.println("Single Tennis Game Details:");<br>
+            System.out.println("Player 1: " + singleTennisGame.getPlayer1_name());<br>
+            System.out.println("Player 2: " + singleTennisGame.getPlayer2_name());<br>
+            System.out.println("Player 1 Score: " + singleTennisGame.getPlayer1_score());<br>
+            System.out.println("Player 2 Score: " + singleTennisGame.getPlayer2_score());<br>
+            System.out.println("Result: " + singleTennisGame.getResult());<br>
+        } else if (gameType.equalsIgnoreCase("double")) {<br>
+            doublesTennisGame = new DoublesTennisGame();<br>
+            System.out.println("Enter team 1 name:");<br>
+            String team1_name = scanner.nextLine();<br>
+            System.out.println("Enter team 2 name:");<br>
+            String team2_name = scanner.nextLine();<br>
+            doublesTennisGame.setNames(team1_name, team2_name);<br>
+            System.out.println("Enter player 1 score:");<br>
+            int player1_score = scanner.nextInt();<br>
+            System.out.println("Enter player 2 score:");<br>
+            int player2_score = scanner.nextInt();<br>
+            doublesTennisGame.setScores(player1_score, player2_score);<br><br>
+            
+            // Display details<br>
+            System.out.println("Doubles Tennis Game Details:");<br>
+            System.out.println("Team 1: " + doublesTennisGame.getTeam1_name());<br>
+            System.out.println("Team 2: " + doublesTennisGame.getTeam2_name());<br>
+            System.out.println("Player 1 Score: " + doublesTennisGame.getPlayer1_score());<br>
+            System.out.println("Player 2 Score: " + doublesTennisGame.getPlayer2_score());<br>
+            System.out.println("Result: " + doublesTennisGame.getResult());<br>
+        } else {<br>
+            System.out.println("Invalid input!");<br>
         }<br>
+   
+<h1> 8</h1>
 
-        int choice = 0;<br>
-        while (choice != 4) {<br>
-            System.out.println("\nChoose an action:");<br>
-            System.out.println("1. Deposit");<br>
-            System.out.println("2. Withdraw");<br>
-            System.out.println("3. Transfer");<br>
-            System.out.println("4. Exit");<br>
-            System.out.print("Enter your choice: ");<br>
-            choice = scanner.nextInt();<br>
+// Abstract class Shape<br>
+abstract class Shape {<br>
+    abstract double area(); // Abstract method to calculate area<br>
+}<br><br>
 
-            switch (choice) {<br>
-                case 1:<br>
-                    System.out.print("Enter AccountNo: ");<br>
-                    int depositAccountNo = scanner.nextInt();<br>
-                    System.out.print("Enter the amount you wish to deposit: ");<br>
-                    double depositAmount = scanner.nextDouble();<br>
-                    for (Account customer : customers) {<br>
-                        if (customer.accNo == depositAccountNo) {<br>
-                            customer.deposit(depositAmount);<br>
-                            break;<br>
-                        }<br>
-                    }<br>
-                    break;<br>
-                case 2:<br>
-                    System.out.print("Enter AccountNo: ");<br>
-                    int withdrawAccountNo = scanner.nextInt();<br>
-                    System.out.print("Enter the amount you wish to withdraw: ");<br>
-                    double withdrawAmount = scanner.nextDouble();<br>
-                    for (Account customer : customers) {<br>
-                        if (customer.accNo == withdrawAccountNo) {<br>
-                            customer.withdraw(withdrawAmount);<br>
-                            break;<br>
-                        }<br>
-                    }<br>
-                    break;<br>
-                case 3:<br>
-                    System.out.print("Enter your AccountNo: ");<br>
-                    int senderAccountNo = scanner.nextInt();<br>
-                    System.out.print("Enter AccountNo you wish to transfer: ");<br>
-                    int receiverAccountNo = scanner.nextInt();<br>
-                    System.out.print("Enter the amount you wish to transfer: ");<br>
-                    double transferAmount = scanner.nextDouble();<br>
-                    Account sender = null;<br>
-                    Account receiver = null;<br>
-                    for (Account customer : customers) {<br>
-                        if (customer.accNo == senderAccountNo) {<br>
-                            sender = customer;<br>
-                        }<br>
-                        if (customer.accNo == receiverAccountNo) {<br>
-                            receiver = customer;<br>
-                        }<br>
-                    }<br>
-                    if (sender != null && receiver != null) {<br>
-                        sender.transfer(receiver, transferAmount);<br>
-                    } else {<br>
-                        System.out.println("Invalid account numbers.");<br>
-                    }<br>
-                    break;<br>
-                case 4:<br>
-                    System.out.println("Exiting...");<br>
-                    break;<br>
-                default:<br>
-                    System.out.println("Invalid choice! Please choose again.");<br>
-            }<br>
-        }<br>
+// Circle class extending Shape<br>
+class Circle extends Shape {<br>
+    private double radius;<br><br>
 
-        scanner.close();<br>
+    public Circle(double radius) {<br>
+        this.radius = radius;<br>
+    }<br><br>
+
+    @Override<br>
+    double area() {<br>
+        return Math.PI * radius * radius;<br>
     }<br>
-}<br>
+}<br><br>
+
+// Triangle class extending Shape<br>
+class Triangle extends Shape {<br>
+    private double base;<br>
+    private double height;<br><br>
+
+    public Triangle(double base, double height) {<br>
+        this.base = base;<br>
+        this.height = height;<br>
+    }<br><br>
+
+    @Override<br>
+    double area() {<br>
+        return 0.5 * base * height;<br>
+    }<br>
+}<br><br>
+
+// Rectangle class extending Shape<br>
+class Rectangle extends Shape {<br>
+    private double length;<br>
+    private double width;<br><br>
+
+    public Rectangle(double length, double width) {<br>
+        this.length = length;<br>
+        this.width = width;<br>
+    }<br><br>
+
+    @Override<br>
+    double area() {<br>
+        return length * width;<br>
+    }<br>
+}<br><br>
+
+// Abstract base class ElectronicDevice<br>
+abstract class ElectronicDevice {<br>
+    private String brand;<br>
+    private double powerConsumption;<br><br>
+
+    public ElectronicDevice(String brand, double powerConsumption) {<br>
+        this.brand = brand;<br>
+        this.powerConsumption = powerConsumption;<br>
+    }<br><br>
+
+    // Getter methods<br>
+    public String getBrand() {<br>
+        return brand;<br>
+    }<br><br>
+
+    public double getPowerConsumption() {<br>
+        return powerConsumption;<br>
+    }<br><br>
+
+    // Abstract methods<br>
+    abstract double calculateYearlyEnergyCost(double electricityCost);<br><br>
+
+    abstract void printDetails();<br>
+}<br><br>
+
+// Laptop class extending ElectronicDevice<br>
+class Laptop extends ElectronicDevice {<br>
+    private double screenSize; // Additional attribute<br><br>
+
+    public Laptop(String brand, double powerConsumption, double screenSize) {<br>
+        super(brand, powerConsumption);<br>
+        this.screenSize = screenSize;<br>
+    }<br><br>
+
+    @Override<br>
+    double calculateYearlyEnergyCost(double electricityCost) {<br>
+        return getPowerConsumption() * 60 * 365 * electricityCost;<br>
+    }<br><br>
+
+    @Override<br>
+    void printDetails() {<br>
+        System.out.println("Laptop Details:");<br>
+        System.out.println("Brand: " + getBrand());<br>
+        System.out.println("Screen Size: " + screenSize + " inches");<br>
+        System.out.println("Yearly Energy Cost: " + calculateYearlyEnergyCost(12) + " Rs");<br>
+    }<br>
+}<br><br>
+
+// Refrigerator class extending ElectronicDevice<br>
+class Refrigerator extends ElectronicDevice {<br>
+    private double volume; // Additional attribute<br><br>
+
+    public Refrigerator(String brand, double powerConsumption, double volume) {<br>
+        super(brand, powerConsumption);<br>
+        this.volume = volume;<br>
+    }<br><br>
+
+    @Override<br>
+    double calculateYearlyEnergyCost(double electricityCost) {<br>
+        return getPowerConsumption() * 130 * 365 * electricityCost;<br>
+    }<br><br>
+
+    @Override<br>
+    void printDetails() {<br>
+        System.out.println("Refrigerator Details:");<br>
+        System.out.println("Brand: " + getBrand());<br>
+        System.out.println("Volume: " + volume + " cubic feet");<br>
+        System.out.println("Yearly Energy Cost: " + calculateYearlyEnergyCost(20) + " Rs");<br>
+    }<br>
+}<br><br>
+
+public class Main {<br>
+    public static void main(String[] args) {<br>
+        // Testing the Shape classes<br>
+        Circle circle = new Circle(5);<br>
+        System.out.println("Circle Area: " + circle.area());<br><br>
+
+        Triangle triangle = new Triangle(4, 3);<br>
+        System.out.println("Triangle Area: " + triangle.area());<br><br>
+
+        Rectangle rectangle = new Rectangle(4, 5);<br>
+        System.out.println("Rectangle Area: " + rectangle.area());<br><br>
+
+        // Testing the ElectronicDevice classes<br>
+        Laptop laptop = new Laptop("Dell", 0.5, 15);<br>
+        laptop.printDetails();<br><br>
+
+        Refrigerator refrigerator = new Refrigerator("Samsung", 1.2, 20);<br>
+        refrigerator.printDetails();<br>
+    }<br>
+}
+
 
 
     </p>
