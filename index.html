@@ -111,5 +111,89 @@ END;<br>
 
 These blocks cover a range of basic, moderate, and advanced PL/SQL tasks. Let me know if you need further assistance or modifications!<br>
 </p>
+<p>
+Let's start by creating the table and inserting the provided data:<br><br>
+
+```plsql<br>
+-- Create the table<br>
+CREATE TABLE students (<br>
+    id NUMBER,<br>
+    name VARCHAR2(50),<br>
+    age NUMBER,<br>
+    department VARCHAR2(50),<br>
+    doa DATE,<br>
+    fee NUMBER,<br>
+    gender VARCHAR2(10)<br>
+);<br><br>
+
+-- Insert the sample data<br>
+INSERT INTO students VALUES (1, 'Piyush', 24, 'Computer', TO_DATE('10/01/97', 'DD/MM/YY'), 120, 'Male');<br>
+INSERT INTO students VALUES (2, 'Shivam', 21, 'History', TO_DATE('24/03/98', 'DD/MM/YY'), 200, 'Male');<br>
+INSERT INTO students VALUES (3, 'Sudha', 22, 'Hindi', TO_DATE('12/12/96', 'DD/MM/YY'), 300, 'Female');<br>
+INSERT INTO students VALUES (4, 'Surya', 25, 'History', TO_DATE('01/07/99', 'DD/MM/YY'), 400, 'Male');<br>
+INSERT INTO students VALUES (5, 'Rohit', 22, 'Hindi', TO_DATE('05/09/97', 'DD/MM/YY'), NULL, 'Male');<br>
+INSERT INTO students VALUES (6, 'Mohit', 30, 'History', TO_DATE('27/06/98', 'DD/MM/YY'), 300, 'Male');<br>
+INSERT INTO students VALUES (7, 'Sneha', 34, 'Computer', TO_DATE('25/02/97', 'DD/MM/YY'), 210, 'Female');<br>
+INSERT INTO students VALUES (8, 'Yash', 23, 'Hindi', TO_DATE('31/07/97', 'DD/MM/YY'), 200, 'Male');<br><br>
+
+COMMIT;<br>
+```<br><br>
+
+### Basic<br><br>
+
+1. **PL/SQL block to display the total rows whose Department is History:**<br><br>
+
+```plsql<br>
+DECLARE<br>
+    total_history_students NUMBER;<br>
+BEGIN<br>
+    SELECT COUNT(*)<br>
+    INTO total_history_students<br>
+    FROM students<br>
+    WHERE department = 'History';<br><br>
+    
+    DBMS_OUTPUT.PUT_LINE('Total students in History department: ' || total_history_students);<br>
+END;<br>
+/<br>
+```<br><br>
+
+### Moderate<br><br>
+
+2. **PL/SQL block to update the table and increase fees by 500 for each student and display total rows affected:**<br><br>
+
+```plsql<br>
+DECLARE<br>
+    rows_updated NUMBER;<br>
+BEGIN<br>
+    UPDATE students<br>
+    SET fee = NVL(fee, 0) + 500; -- Using NVL to handle NULL fees<br>
+    rows_updated := SQL%ROWCOUNT;<br><br>
+    
+    DBMS_OUTPUT.PUT_LINE('Total rows updated: ' || rows_updated);<br>
+END;<br>
+/<br>
+```<br><br>
+
+### Advanced<br><br>
+
+3. **PL/SQL block to update the department to "Computer" for students whose age is greater than 25 and gender is Male:**<br><br>
+
+```plsql<br>
+DECLARE<br>
+    rows_updated NUMBER;<br>
+BEGIN<br>
+    UPDATE students<br>
+    SET department = 'Computer'<br>
+    WHERE age > 25 AND gender = 'Male';<br><br>
+    
+    rows_updated := SQL%ROWCOUNT;<br><br>
+    
+    DBMS_OUTPUT.PUT_LINE('Total rows updated: ' || rows_updated);<br>
+END;<br>
+/<br>
+```<br><br>
+
+These PL/SQL blocks utilize implicit cursors to achieve the specified tasks. Let me know if you need further assistance or any modifications!<br>
+</p>
 </body>
 </html>
