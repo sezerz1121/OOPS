@@ -5,195 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-   <p>
-Sure! Here are the PL/SQL blocks for the specified tasks:<br><br>
-
-### Basic<br><br>
-
-1. **PL/SQL block to check whether a number is even or odd:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    num NUMBER := &input_number; -- Prompt the user to enter a number<br>
-BEGIN<br>
-    IF num MOD 2 = 0 THEN<br>
-        DBMS_OUTPUT.PUT_LINE(num || ' is even.');<br>
-    ELSE<br>
-        DBMS_OUTPUT.PUT_LINE(num || ' is odd.');<br>
-    END IF;<br>
-END;<br>
-/<br>
-```<br><br>
-
-2. **PL/SQL block to convert a temperature in scale Fahrenheit to Celsius and vice versa:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    fahrenheit NUMBER := &input_fahrenheit; -- Prompt the user to enter temperature in Fahrenheit<br>
-    celsius NUMBER := &input_celsius; -- Prompt the user to enter temperature in Celsius<br>
-    converted_to_celsius NUMBER;<br>
-    converted_to_fahrenheit NUMBER;<br>
-BEGIN<br>
-    -- Convert Fahrenheit to Celsius<br>
-    converted_to_celsius := (fahrenheit - 32) * 5 / 9;<br>
-    DBMS_OUTPUT.PUT_LINE(fahrenheit || ' Fahrenheit is ' || converted_to_celsius || ' Celsius.');<br>
-    <br>
-    -- Convert Celsius to Fahrenheit<br>
-    converted_to_fahrenheit := (celsius * 9 / 5) + 32;<br>
-    DBMS_OUTPUT.PUT_LINE(celsius || ' Celsius is ' || converted_to_fahrenheit || ' Fahrenheit.');<br>
-END;<br>
-/<br>
-```<br><br>
-
-### Moderate<br><br>
-
-3. **PL/SQL block to check whether a given character is a letter or digit:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    character_input CHAR := '&input_character'; -- Prompt the user to enter a character<br>
-BEGIN<br>
-    IF character_input BETWEEN '0' AND '9' THEN<br>
-        DBMS_OUTPUT.PUT_LINE(character_input || ' is a digit.');<br>
-    ELSIF (character_input BETWEEN 'A' AND 'Z') OR (character_input BETWEEN 'a' AND 'z') THEN<br>
-        DBMS_OUTPUT.PUT_LINE(character_input || ' is a letter.');<br>
-    ELSE<br>
-        DBMS_OUTPUT.PUT_LINE(character_input || ' is neither a letter nor a digit.');<br>
-    END IF;<br>
-END;<br>
-/<br>
-```<br><br>
-
-### Advanced<br><br>
-
-4. **PL/SQL block to display the employee whose ID is 110:**<br><br>
-
-First, let's create the `employees` table:<br><br>
-
-```plsql<br>
-CREATE TABLE employees (<br>
-    employee_id NUMBER(14),<br>
-    employee_name VARCHAR2(50),<br>
-    department_id NUMBER(12)<br>
-);<br><br>
-
--- Insert some sample data<br>
-INSERT INTO employees (employee_id, employee_name, department_id) VALUES (110, 'John Doe', 10);<br>
-INSERT INTO employees (employee_id, employee_name, department_id) VALUES (111, 'Jane Smith', 20);<br>
-INSERT INTO employees (employee_id, employee_name, department_id) VALUES (112, 'Robert Brown', 30);<br><br>
-
-COMMIT;<br>
-```<br><br>
-
-Now, the PL/SQL block to display the employee with ID 110:<br><br>
-
-```plsql<br>
-DECLARE<br>
-    emp_id NUMBER := 110; -- Employee ID to search<br>
-    emp_name VARCHAR2(50);<br>
-    dept_id NUMBER;<br>
-BEGIN<br>
-    SELECT employee_name, department_id<br>
-    INTO emp_name, dept_id<br>
-    FROM employees<br>
-    WHERE employee_id = emp_id;<br><br>
-
-    DBMS_OUTPUT.PUT_LINE('Employee ID: ' || emp_id);<br>
-    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);<br>
-    DBMS_OUTPUT.PUT_LINE('Department ID: ' || dept_id);<br>
-EXCEPTION<br>
-    WHEN NO_DATA_FOUND THEN<br>
-        DBMS_OUTPUT.PUT_LINE('No employee found with ID ' || emp_id);<br>
-END;<br>
-/<br>
-```<br><br>
-
-These blocks cover a range of basic, moderate, and advanced PL/SQL tasks. Let me know if you need further assistance or modifications!<br>
-</p>
-<p>
-Let's start by creating the table and inserting the provided data:<br><br>
-
-```plsql<br>
--- Create the table<br>
-CREATE TABLE students (<br>
-    id NUMBER,<br>
-    name VARCHAR2(50),<br>
-    age NUMBER,<br>
-    department VARCHAR2(50),<br>
-    doa DATE,<br>
-    fee NUMBER,<br>
-    gender VARCHAR2(10)<br>
-);<br><br>
-
--- Insert the sample data<br>
-INSERT INTO students VALUES (1, 'Piyush', 24, 'Computer', TO_DATE('10/01/97', 'DD/MM/YY'), 120, 'Male');<br>
-INSERT INTO students VALUES (2, 'Shivam', 21, 'History', TO_DATE('24/03/98', 'DD/MM/YY'), 200, 'Male');<br>
-INSERT INTO students VALUES (3, 'Sudha', 22, 'Hindi', TO_DATE('12/12/96', 'DD/MM/YY'), 300, 'Female');<br>
-INSERT INTO students VALUES (4, 'Surya', 25, 'History', TO_DATE('01/07/99', 'DD/MM/YY'), 400, 'Male');<br>
-INSERT INTO students VALUES (5, 'Rohit', 22, 'Hindi', TO_DATE('05/09/97', 'DD/MM/YY'), NULL, 'Male');<br>
-INSERT INTO students VALUES (6, 'Mohit', 30, 'History', TO_DATE('27/06/98', 'DD/MM/YY'), 300, 'Male');<br>
-INSERT INTO students VALUES (7, 'Sneha', 34, 'Computer', TO_DATE('25/02/97', 'DD/MM/YY'), 210, 'Female');<br>
-INSERT INTO students VALUES (8, 'Yash', 23, 'Hindi', TO_DATE('31/07/97', 'DD/MM/YY'), 200, 'Male');<br><br>
-
-COMMIT;<br>
-```<br><br>
-
-### Basic<br><br>
-
-1. **PL/SQL block to display the total rows whose Department is History:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    total_history_students NUMBER;<br>
-BEGIN<br>
-    SELECT COUNT(*)<br>
-    INTO total_history_students<br>
-    FROM students<br>
-    WHERE department = 'History';<br><br>
-    
-    DBMS_OUTPUT.PUT_LINE('Total students in History department: ' || total_history_students);<br>
-END;<br>
-/<br>
-```<br><br>
-
-### Moderate<br><br>
-
-2. **PL/SQL block to update the table and increase fees by 500 for each student and display total rows affected:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    rows_updated NUMBER;<br>
-BEGIN<br>
-    UPDATE students<br>
-    SET fee = NVL(fee, 0) + 500; -- Using NVL to handle NULL fees<br>
-    rows_updated := SQL%ROWCOUNT;<br><br>
-    
-    DBMS_OUTPUT.PUT_LINE('Total rows updated: ' || rows_updated);<br>
-END;<br>
-/<br>
-```<br><br>
-
-### Advanced<br><br>
-
-3. **PL/SQL block to update the department to "Computer" for students whose age is greater than 25 and gender is Male:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    rows_updated NUMBER;<br>
-BEGIN<br>
-    UPDATE students<br>
-    SET department = 'Computer'<br>
-    WHERE age > 25 AND gender = 'Male';<br><br>
-    
-    rows_updated := SQL%ROWCOUNT;<br><br>
-    
-    DBMS_OUTPUT.PUT_LINE('Total rows updated: ' || rows_updated);<br>
-END;<br>
-/<br>
-```<br><br>
-
-These PL/SQL blocks utilize implicit cursors to achieve the specified tasks. Let me know if you need further assistance or any modifications!<br>
+<body><p>
+1.<br><br>
+<?php<br>
+$color = array('white', 'green', 'red', 'blue', 'black');<br><br>
+$sentence = "The memory of that scene for me is like a frame of film forever frozen at that moment: the %s carpet, the %s lawn, the %s house, the leaden sky. The new president and his first lady. - Richard M. Nixon";<br><br>
+$output = sprintf($sentence, $color[2], $color[1], $color[0]);<br><br>
+echo $output;<br>
+?><br><br><br>
+2.<br><br>
+<?php<br>
+$color = array('white', 'green', 'red');<br>
+echo $color[1] . "<br>";<br>
+echo $color[2] . "<br>";<br>
+echo $color[0] . "<br>";<br>
+?><br><br><br>
+3.<br><br>
+<?php<br>
+$ceu = array( "Italy"=>"Rome", "Luxembourg"=>"Luxembourg", "Belgium"=> "Brussels", "Denmark"=>"Copenhagen", "Finland"=>"Helsinki", "France" => "Paris", "Slovakia"=>"Bratislava", "Slovenia"=>"Ljubljana", "Germany" => "Berlin", "Greece" => "Athens", "Ireland"=>"Dublin", "Netherlands"=>"Amsterdam", "Portugal"=>"Lisbon", "Spain"=>"Madrid", "Sweden"=>"Stockholm", "United Kingdom"=>"London", "Cyprus"=>"Nicosia", "Lithuania"=>"Vilnius", "Czech Republic"=>"Prague", "Estonia"=>"Tallin", "Hungary"=>"Budapest", "Latvia"=>"Riga", "Malta"=>"Valetta", "Austria" => "Vienna", "Poland"=>"Warsaw");<br><br>
+asort($ceu);<br><br>
+foreach($ceu as $country => $capital) {<br>
+echo "$country: $capital<br>";<br>
+}?><br><br><br>
+4.<br><br>
+<?php<br>
+$x = array(1, 2, 3, 4, 5);<br><br>
+echo "Original array:\n";<br>
+var_dump($x);<br><br>
+$indexToDelete = 3;<br><br>
+unset($x[$indexToDelete]);<br><br>
+$x = array_values($x);<br><br>
+echo "Array after deleting element at index $indexToDelete:\n";<br>
+var_dump($x);<br>
+?><br><br><br>
+5.<br><br>
+<?php<br>
+$color = array(4 => 'white', 6 => 'green', 11 => 'red');<br><br>
+$firstElement = reset($color);<br><br>
+echo $firstElement;<br>
+?><br><br><br>
+6.<br><br>
+<?php<br>
+$jsonString = '{"Title": "The Cuckoos Calling","Author": "Robert Galbraith","Detail": {"Publisher": "Little Brown"}}';<br><br>
+$data = json_decode($jsonString, true);<br><br>
+echo "Title : " . $data['Title'] . "\n" . "<br>";<br>
+echo "Author : " . $data['Author'] . "\n" . "<br>";<br>
+echo "Publisher : " . $data['Detail']['Publisher'] . "\n" . "<br>";<br>
+?><br><br><br>
+7.<br><br>
+<?php<br>
+$x = array(1, 2, 3, 4, 5);<br><br>
+echo "Original array:\n";<br>
+print_r($x);<br><br>
+unset($x[2]);<br><br>
+$x = array_values($x);<br><br>
+echo "Array after deletion and re-indexing:\n";<br>
+print_r($x);<br>
+?><br><br><br>
+8.<br><br>
+<?php<br>
+$array = array("Sophia" => "31", "Jacob" => "41", "William" => "39", "Ramesh" => "40");<br><br>
+asort($array);<br>
+echo "Ascending order sort by value:\n";<br>
+print_r($array);<br><br>
+ksort($array);<br>
+echo "\nAscending order sort by Key:\n";<br>
+print_r($array);<br><br>
+$array = array("Sophia" => "31", "Jacob" => "41", "William" => "39", "Ramesh" => "40");<br><br>
+arsort($array);<br>
+echo "\nDescending order sort by Value:\n";<br>
+print_r($array);<br><br>
+krsort($array);<br>
+echo "\nDescending order sort by Key:\n";<br>
+print_r($array);<br>
+?><br><br>
 </p>
 </body>
 </html>
