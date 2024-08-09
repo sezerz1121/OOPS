@@ -111,5 +111,130 @@ END;<br>
 
 These blocks cover a range of basic, moderate, and advanced PL/SQL tasks. Let me know if you need further assistance or modifications!<br>
 </p>
+<p>
+Let's create the table and insert the data as provided:<br><br>
+
+### Create the Table and Insert Data<br><br>
+
+```plsql<br>
+-- Create the students table<br>
+CREATE TABLE students (<br>
+    id NUMBER,<br>
+    name VARCHAR2(50),<br>
+    age NUMBER,<br>
+    department VARCHAR2(50),<br>
+    doa DATE,<br>
+    fee NUMBER,<br>
+    gender VARCHAR2(10)<br>
+);<br><br>
+
+-- Insert the sample data<br>
+INSERT INTO students VALUES (1, 'Piyush', 24, 'Computer', TO_DATE('10/01/97', 'DD/MM/YY'), 120, 'Male');<br>
+INSERT INTO students VALUES (2, 'Shwam', 21, 'History', TO_DATE('24/03/98', 'DD/MM/YY'), 200, 'Male');<br>
+INSERT INTO students VALUES (3, 'Sudha', 22, 'Hindi', TO_DATE('12/12/96', 'DD/MM/YY'), 300, 'Female');<br>
+INSERT INTO students VALUES (4, 'Surya', 25, 'History', TO_DATE('01/07/99', 'DD/MM/YY'), 400, 'Male');<br>
+INSERT INTO students VALUES (5, 'Rohit', 22, 'Hindi', TO_DATE('05/09/97', 'DD/MM/YY'), 250, 'Male');<br>
+INSERT INTO students VALUES (6, 'Mohit', 30, 'History', TO_DATE('27/06/98', 'DD/MM/YY'), 300, 'Male');<br>
+INSERT INTO students VALUES (7, 'Sneha', 34, 'Computer', TO_DATE('25/02/97', 'DD/MM/YY'), 210, 'Female');<br>
+INSERT INTO students VALUES (8, 'Yash', 23, 'Hindi', TO_DATE('31/07/97', 'DD/MM/YY'), 200, 'Male');<br><br>
+
+COMMIT;<br>
+```<br><br>
+
+### Basic<br><br>
+
+1. **Create a cursor to display Name and Fee details of all departments:**<br><br>
+
+```plsql<br>
+DECLARE<br>
+    CURSOR student_cursor IS<br>
+        SELECT name, fee FROM students;<br><br>
+
+    student_rec student_cursor%ROWTYPE;<br>
+BEGIN<br>
+    OPEN student_cursor;<br><br>
+
+    LOOP<br>
+        FETCH student_cursor INTO student_rec;<br>
+        EXIT WHEN student_cursor%NOTFOUND;<br><br>
+
+        DBMS_OUTPUT.PUT_LINE('Name: ' || student_rec.name || ', Fee: ' || student_rec.fee);<br>
+    END LOOP;<br><br>
+
+    CLOSE student_cursor;<br>
+END;<br>
+/<br>
+```<br><br>
+
+### Moderate<br><br>
+
+1. **Create a cursor to update the department to Hindi for students whose age is greater than 30. Display updated details:**<br><br>
+
+```plsql<br>
+DECLARE<br>
+    CURSOR update_dept_cursor IS<br>
+        SELECT id, name FROM students WHERE age > 30;<br><br>
+
+    student_rec update_dept_cursor%ROWTYPE;<br>
+BEGIN<br>
+    OPEN update_dept_cursor;<br><br>
+
+    LOOP<br>
+        FETCH update_dept_cursor INTO student_rec;<br>
+        EXIT WHEN update_dept_cursor%NOTFOUND;<br><br>
+
+        UPDATE students<br>
+        SET department = 'Hindi'<br>
+        WHERE id = student_rec.id;<br><br>
+
+        DBMS_OUTPUT.PUT_LINE('Updated Department to Hindi for: ' || student_rec.name);<br>
+    END LOOP;<br><br>
+
+    CLOSE update_dept_cursor;<br><br>
+
+    -- Display updated details<br>
+    FOR student IN (SELECT name, department FROM students WHERE age > 30) LOOP<br>
+        DBMS_OUTPUT.PUT_LINE('Name: ' || student.name || ', Department: ' || student.department);<br>
+    END LOOP;<br>
+END;<br>
+/<br>
+```<br><br>
+
+### Advanced<br><br>
+
+2. **Create a cursor to decrease fees by 200 for students whose department is Hindi. Display all students with updated fees:**<br><br>
+
+```plsql<br>
+DECLARE<br>
+    CURSOR update_fees_cursor IS<br>
+        SELECT id, name, fee FROM students WHERE department = 'Hindi';<br><br>
+
+    student_rec update_fees_cursor%ROWTYPE;<br>
+BEGIN<br>
+    OPEN update_fees_cursor;<br><br>
+
+    LOOP<br>
+        FETCH update_fees_cursor INTO student_rec;<br>
+        EXIT WHEN update_fees_cursor%NOTFOUND;<br><br>
+
+        UPDATE students<br>
+        SET fee = fee - 200<br>
+        WHERE id = student_rec.id;<br><br>
+
+        DBMS_OUTPUT.PUT_LINE('Decreased Fee for: ' || student_rec.name || ' to ' || (student_rec.fee - 200));<br>
+    END LOOP;<br><br>
+
+    CLOSE update_fees_cursor;<br><br>
+
+    -- Display all students with updated fees<br>
+    FOR student IN (SELECT name, fee FROM students) LOOP<br>
+        DBMS_OUTPUT.PUT_LINE('Name: ' || student.name || ', Fee: ' || student.fee);<br>
+    END LOOP;<br>
+END;<br>
+/<br>
+```<br><br>
+
+These blocks illustrate the use of both implicit and explicit cursors to perform various operations on the data. Let me know if you need further assistance or modifications!<br>
+</p>
 </body>
 </html>
