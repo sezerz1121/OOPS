@@ -7,234 +7,141 @@
 </head>
 <body>
 <p>
-Sure! Here are the PL/SQL blocks for the specified tasks:<br><br>
-
-### Basic<br><br>
-
-1. **PL/SQL block to check whether a number is even or odd:**<br><br>
-
-```plsql<br>
+Basic Level:<br>
+1. Create a cursor to display all employee information sorted by employee number:<br>
+<br>
 DECLARE<br>
-    num NUMBER := &input_number; -- Prompt the user to enter a number<br>
+CURSOR emp_cursor IS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM employees ORDER BY emp_no;<br>
+v_emp employees%ROWTYPE;<br>
 BEGIN<br>
-    IF num MOD 2 = 0 THEN<br>
-        DBMS_OUTPUT.PUT_LINE(num || ' is even.');<br>
-    ELSE<br>
-        DBMS_OUTPUT.PUT_LINE(num || ' is odd.');<br>
-    END IF;<br>
+OPEN emp_cursor;<br>
+LOOP<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FETCH emp_cursor INTO v_emp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN emp_cursor%NOTFOUND;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Emp No: ' || v_emp.emp_no || ', Name: ' || v_emp.emp_name || ', Designation: ' || v_emp.designation || ', Salary: ' || v_emp.salary || ', Commission: ' || NVL(v_emp.commission, 0));<br>
+END LOOP;<br>
+CLOSE emp_cursor;<br>
 END;<br>
 /<br>
-```<br><br>
-
-2. **PL/SQL block to convert a temperature in scale Fahrenheit to Celsius and vice versa:**<br><br>
-
-```plsql<br>
+<br>
+Moderate Level:<br>
+2. Create a cursor to update the commission of all employees whose designation is 'Salesman':<br>
+<br>
 DECLARE<br>
-    fahrenheit NUMBER := &input_fahrenheit; -- Prompt the user to enter temperature in Fahrenheit<br>
-    celsius NUMBER := &input_celsius; -- Prompt the user to enter temperature in Celsius<br>
-    converted_to_celsius NUMBER;<br>
-    converted_to_fahrenheit NUMBER;<br>
+CURSOR sales_cursor IS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT emp_no, commission FROM employees WHERE designation = 'Salesman' FOR UPDATE;<br>
+v_emp_no employees.emp_no%TYPE;<br>
+v_commission employees.commission%TYPE;<br>
 BEGIN<br>
-    -- Convert Fahrenheit to Celsius<br>
-    converted_to_celsius := (fahrenheit - 32) * 5 / 9;<br>
-    DBMS_OUTPUT.PUT_LINE(fahrenheit || ' Fahrenheit is ' || converted_to_celsius || ' Celsius.');<br>
-    <br>
-    -- Convert Celsius to Fahrenheit<br>
-    converted_to_fahrenheit := (celsius * 9 / 5) + 32;<br>
-    DBMS_OUTPUT.PUT_LINE(celsius || ' Celsius is ' || converted_to_fahrenheit || ' Fahrenheit.');<br>
+OPEN sales_cursor;<br>
+LOOP<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FETCH sales_cursor INTO v_emp_no, v_commission;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN sales_cursor%NOTFOUND;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UPDATE employees<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SET commission = NVL(v_commission, 0) + 5000<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE CURRENT OF sales_cursor;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Emp No: ' || v_emp_no || ' commission updated to: ' || (v_commission + 5000));<br>
+END LOOP;<br>
+CLOSE sales_cursor;<br>
 END;<br>
 /<br>
-```<br><br>
-
-### Moderate<br><br>
-
-3. **PL/SQL block to check whether a given character is a letter or digit:**<br><br>
-
-```plsql<br>
+<br>
+3. Display all employee information designation-wise in proper order:<br>
+<br>
 DECLARE<br>
-    character_input CHAR := '&input_character'; -- Prompt the user to enter a character<br>
+CURSOR emp_designation_cursor IS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM employees ORDER BY designation;<br>
+v_emp employees%ROWTYPE;<br>
 BEGIN<br>
-    IF character_input BETWEEN '0' AND '9' THEN<br>
-        DBMS_OUTPUT.PUT_LINE(character_input || ' is a digit.');<br>
-    ELSIF (character_input BETWEEN 'A' AND 'Z') OR (character_input BETWEEN 'a' AND 'z') THEN<br>
-        DBMS_OUTPUT.PUT_LINE(character_input || ' is a letter.');<br>
-    ELSE<br>
-        DBMS_OUTPUT.PUT_LINE(character_input || ' is neither a letter nor a digit.');<br>
-    END IF;<br>
+OPEN emp_designation_cursor;<br>
+LOOP<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FETCH emp_designation_cursor INTO v_emp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN emp_designation_cursor%NOTFOUND;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Emp No: ' || v_emp.emp_no || ', Name: ' || v_emp.emp_name || ', Designation: ' || v_emp.designation || ', Salary: ' || v_emp.salary || ', Commission: ' || NVL(v_emp.commission, 0));<br>
+END LOOP;<br>
+CLOSE emp_designation_cursor;<br>
 END;<br>
 /<br>
-```<br><br>
-
-### Advanced<br><br>
-
-4. **PL/SQL block to display the employee whose ID is 110:**<br><br>
-
-First, let's create the `employees` table:<br><br>
-
-```plsql<br>
-CREATE TABLE employees (<br>
-    employee_id NUMBER(14),<br>
-    employee_name VARCHAR2(50),<br>
-    department_id NUMBER(12)<br>
-);<br><br>
-
--- Insert some sample data<br>
-INSERT INTO employees (employee_id, employee_name, department_id) VALUES (110, 'John Doe', 10);<br>
-INSERT INTO employees (employee_id, employee_name, department_id) VALUES (111, 'Jane Smith', 20);<br>
-INSERT INTO employees (employee_id, employee_name, department_id) VALUES (112, 'Robert Brown', 30);<br><br>
-
-COMMIT;<br>
-```<br><br>
-
-Now, the PL/SQL block to display the employee with ID 110:<br><br>
-
-```plsql<br>
+<br>
+Advanced Level:<br>
+4. Create a cursor to delete all employees whose designation is 'CEO':<br>
+<br>
 DECLARE<br>
-    emp_id NUMBER := 110; -- Employee ID to search<br>
-    emp_name VARCHAR2(50);<br>
-    dept_id NUMBER;<br>
+CURSOR ceo_cursor IS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT emp_no FROM employees WHERE designation = 'CEO';<br>
+v_emp_no employees.emp_no%TYPE;<br>
 BEGIN<br>
-    SELECT employee_name, department_id<br>
-    INTO emp_name, dept_id<br>
-    FROM employees<br>
-    WHERE employee_id = emp_id;<br><br>
-
-    DBMS_OUTPUT.PUT_LINE('Employee ID: ' || emp_id);<br>
-    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);<br>
-    DBMS_OUTPUT.PUT_LINE('Department ID: ' || dept_id);<br>
-EXCEPTION<br>
-    WHEN NO_DATA_FOUND THEN<br>
-        DBMS_OUTPUT.PUT_LINE('No employee found with ID ' || emp_id);<br>
+OPEN ceo_cursor;<br>
+LOOP<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FETCH ceo_cursor INTO v_emp_no;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN ceo_cursor%NOTFOUND;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM employees WHERE emp_no = v_emp_no;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Deleted employee with Emp No: ' || v_emp_no);<br>
+END LOOP;<br>
+CLOSE ceo_cursor;<br>
 END;<br>
 /<br>
-```<br><br>
-
-These blocks cover a range of basic, moderate, and advanced PL/SQL tasks. Let me know if you need further assistance or modifications!<br>
 </p>
 <p>
-Let's create the table and insert the data as provided:<br><br>
-
-### Create the Table and Insert Data<br><br>
-
-```plsql<br>
--- Create the students table<br>
-CREATE TABLE students (<br>
-    id NUMBER,<br>
-    name VARCHAR2(50),<br>
-    age NUMBER,<br>
-    department VARCHAR2(50),<br>
-    doa DATE,<br>
-    fee NUMBER,<br>
-    gender VARCHAR2(10)<br>
-);<br><br>
-
--- Insert the sample data<br>
-INSERT INTO students VALUES (1, 'Piyush', 24, 'Computer', TO_DATE('10/01/97', 'DD/MM/YY'), 120, 'Male');<br>
-INSERT INTO students VALUES (2, 'Shwam', 21, 'History', TO_DATE('24/03/98', 'DD/MM/YY'), 200, 'Male');<br>
-INSERT INTO students VALUES (3, 'Sudha', 22, 'Hindi', TO_DATE('12/12/96', 'DD/MM/YY'), 300, 'Female');<br>
-INSERT INTO students VALUES (4, 'Surya', 25, 'History', TO_DATE('01/07/99', 'DD/MM/YY'), 400, 'Male');<br>
-INSERT INTO students VALUES (5, 'Rohit', 22, 'Hindi', TO_DATE('05/09/97', 'DD/MM/YY'), 250, 'Male');<br>
-INSERT INTO students VALUES (6, 'Mohit', 30, 'History', TO_DATE('27/06/98', 'DD/MM/YY'), 300, 'Male');<br>
-INSERT INTO students VALUES (7, 'Sneha', 34, 'Computer', TO_DATE('25/02/97', 'DD/MM/YY'), 210, 'Female');<br>
-INSERT INTO students VALUES (8, 'Yash', 23, 'Hindi', TO_DATE('31/07/97', 'DD/MM/YY'), 200, 'Male');<br><br>
-
-COMMIT;<br>
-```<br><br>
-
-### Basic<br><br>
-
-1. **Create a cursor to display Name and Fee details of all departments:**<br><br>
-
-```plsql<br>
 DECLARE<br>
-    CURSOR student_cursor IS<br>
-        SELECT name, fee FROM students;<br><br>
-
-    student_rec student_cursor%ROWTYPE;<br>
+v_emp_name VARCHAR2(50);<br>
+v_emp_details employees%ROWTYPE;<br>
 BEGIN<br>
-    OPEN student_cursor;<br><br>
-
-    LOOP<br>
-        FETCH student_cursor INTO student_rec;<br>
-        EXIT WHEN student_cursor%NOTFOUND;<br><br>
-
-        DBMS_OUTPUT.PUT_LINE('Name: ' || student_rec.name || ', Fee: ' || student_rec.fee);<br>
-    END LOOP;<br><br>
-
-    CLOSE student_cursor;<br>
+-- Cursor to select employees named 'Alice'<br>
+FOR emp_rec IN (SELECT * FROM employees WHERE first_name = 'Alice') LOOP<br>
+v_emp_details := emp_rec;<br>
+<br>
+-- Display the employee details<br>
+DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_emp_details.employee_id);<br>
+DBMS_OUTPUT.PUT_LINE('First Name: ' || v_emp_details.first_name);<br>
+DBMS_OUTPUT.PUT_LINE('Last Name: ' || v_emp_details.last_name);<br>
+DBMS_OUTPUT.PUT_LINE('Email: ' || v_emp_details.email);<br>
+DBMS_OUTPUT.PUT_LINE('Phone Number: ' || v_emp_details.phone_number);<br>
+DBMS_OUTPUT.PUT_LINE('Hire Date: ' || TO_CHAR(v_emp_details.hire_date, 'DD-MON-YYYY'));<br>
+DBMS_OUTPUT.PUT_LINE('Job ID: ' || v_emp_details.job_id);<br>
+DBMS_OUTPUT.PUT_LINE('Salary: ' || v_emp_details.salary);<br>
+DBMS_OUTPUT.PUT_LINE('Commission PCT: ' || v_emp_details.commission_pct);<br>
+DBMS_OUTPUT.PUT_LINE('Manager ID: ' || v_emp_details.manager_id);<br>
+DBMS_OUTPUT.PUT_LINE('Department ID: ' || v_emp_details.department_id);<br>
+DBMS_OUTPUT.PUT_LINE('---------------------------------');<br>
+END LOOP;<br>
 END;<br>
-/<br>
-```<br><br>
-
-### Moderate<br><br>
-
-1. **Create a cursor to update the department to Hindi for students whose age is greater than 30. Display updated details:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    CURSOR update_dept_cursor IS<br>
-        SELECT id, name FROM students WHERE age > 30;<br><br>
-
-    student_rec update_dept_cursor%ROWTYPE;<br>
-BEGIN<br>
-    OPEN update_dept_cursor;<br><br>
-
-    LOOP<br>
-        FETCH update_dept_cursor INTO student_rec;<br>
-        EXIT WHEN update_dept_cursor%NOTFOUND;<br><br>
-
-        UPDATE students<br>
-        SET department = 'Hindi'<br>
-        WHERE id = student_rec.id;<br><br>
-
-        DBMS_OUTPUT.PUT_LINE('Updated Department to Hindi for: ' || student_rec.name);<br>
-    END LOOP;<br><br>
-
-    CLOSE update_dept_cursor;<br><br>
-
-    -- Display updated details<br>
-    FOR student IN (SELECT name, department FROM students WHERE age > 30) LOOP<br>
-        DBMS_OUTPUT.PUT_LINE('Name: ' || student.name || ', Department: ' || student.department);<br>
-    END LOOP;<br>
-END;<br>
-/<br>
-```<br><br>
-
-### Advanced<br><br>
-
-2. **Create a cursor to decrease fees by 200 for students whose department is Hindi. Display all students with updated fees:**<br><br>
-
-```plsql<br>
-DECLARE<br>
-    CURSOR update_fees_cursor IS<br>
-        SELECT id, name, fee FROM students WHERE department = 'Hindi';<br><br>
-
-    student_rec update_fees_cursor%ROWTYPE;<br>
-BEGIN<br>
-    OPEN update_fees_cursor;<br><br>
-
-    LOOP<br>
-        FETCH update_fees_cursor INTO student_rec;<br>
-        EXIT WHEN update_fees_cursor%NOTFOUND;<br><br>
-
-        UPDATE students<br>
-        SET fee = fee - 200<br>
-        WHERE id = student_rec.id;<br><br>
-
-        DBMS_OUTPUT.PUT_LINE('Decreased Fee for: ' || student_rec.name || ' to ' || (student_rec.fee - 200));<br>
-    END LOOP;<br><br>
-
-    CLOSE update_fees_cursor;<br><br>
-
-    -- Display all students with updated fees<br>
-    FOR student IN (SELECT name, fee FROM students) LOOP<br>
-        DBMS_OUTPUT.PUT_LINE('Name: ' || student.name || ', Fee: ' || student.fee);<br>
-    END LOOP;<br>
-END;<br>
-/<br>
-```<br><br>
-
-These blocks illustrate the use of both implicit and explicit cursors to perform various operations on the data. Let me know if you need further assistance or modifications!<br>
+/
 </p>
+<p>
+DECLARE<br>
+v_emp_details employees%ROWTYPE;<br>
+v_dept_name departments.department_name%TYPE;<br>
+BEGIN<br>
+-- Cursor to select employee details along with department name<br>
+FOR emp_rec IN (SELECT e.*, d.department_name <br>
+&nbsp;&nbsp;&nbsp;&nbsp;FROM employees e <br>
+&nbsp;&nbsp;&nbsp;&nbsp;JOIN departments d ON e.department_id = d.department_id) LOOP<br>
+v_emp_details := emp_rec;<br>
+v_dept_name := emp_rec.department_name;<br>
+<br>
+-- Display the employee details with department name<br>
+DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_emp_details.employee_id);<br>
+DBMS_OUTPUT.PUT_LINE('First Name: ' || v_emp_details.first_name);<br>
+DBMS_OUTPUT.PUT_LINE('Last Name: ' || v_emp_details.last_name);<br>
+DBMS_OUTPUT.PUT_LINE('Email: ' || v_emp_details.email);<br>
+DBMS_OUTPUT.PUT_LINE('Phone Number: ' || v_emp_details.phone_number);<br>
+DBMS_OUTPUT.PUT_LINE('Hire Date: ' || TO_CHAR(v_emp_details.hire_date, 'DD-MON-YYYY'));<br>
+DBMS_OUTPUT.PUT_LINE('Job ID: ' || v_emp_details.job_id);<br>
+DBMS_OUTPUT.PUT_LINE('Salary: ' || v_emp_details.salary);<br>
+DBMS_OUTPUT.PUT_LINE('Department Name: ' || v_dept_name);<br>
+DBMS_OUTPUT.PUT_LINE('---------------------------------');<br>
+END LOOP;<br>
+END;<br>
+/
+</p>
+
 </body>
 </html>
