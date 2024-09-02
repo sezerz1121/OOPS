@@ -19,6 +19,26 @@ $a=7;<br>
 echo "Factorial of $a is ".fac($a)<br>
 ?&gt;
 </p>
-
+<p>
+&lt;?php<br>
+function prime($number){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if($number==1) return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for ($i=2; $i&lt;=sqrt($number); $i++);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if ($number%$i==0) return false;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+}<br>
+$number=22;<br>
+if (prime($number)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'number is prime ';<br>
+}<br>
+else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'number is not prime ';<br>
+}<br>
+?&gt;
+</p>
+<p><?php<br>function prime($number){<br>if($number==1) return false;<br>for ($i=2; $i<=sqrt($number); $i++);<br>if ($number%$i==0) return false;<br>}<br>return true;<br>}<br>$number=22;<br>if (prime($number)) {<br>echo 'number is prime ';<br>}<br>else {<br>echo 'number is not prime ';<br>}<br>?></p>
+<p><?php<br>function rev($a){<br>if(strlen($a)==0){<br>return $a;<br>}<br>else {<br>return rev(substr($a,1)).$a[0];<br>}<br>}<br>$a="computer";<br>echo rev($a);<br>?></p>
+<p><?php<br>function sortarray($array){<br>sort($array);<br>return $array;<br>}<br>$array=array(7,5,3,1);<br>$sortedarray=sortarray($array);<br>print_r($sortedarray);<br>?></p>
 </body>
 </html>
