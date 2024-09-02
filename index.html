@@ -7,141 +7,17 @@
 </head>
 <body>
 <p>
-Basic Level:<br>
-1. Create a cursor to display all employee information sorted by employee number:<br>
-<br>
-DECLARE<br>
-CURSOR emp_cursor IS<br>
-&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM employees ORDER BY emp_no;<br>
-v_emp employees%ROWTYPE;<br>
-BEGIN<br>
-OPEN emp_cursor;<br>
-LOOP<br>
-&nbsp;&nbsp;&nbsp;&nbsp;FETCH emp_cursor INTO v_emp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN emp_cursor%NOTFOUND;<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Emp No: ' || v_emp.emp_no || ', Name: ' || v_emp.emp_name || ', Designation: ' || v_emp.designation || ', Salary: ' || v_emp.salary || ', Commission: ' || NVL(v_emp.commission, 0));<br>
-END LOOP;<br>
-CLOSE emp_cursor;<br>
-END;<br>
-/<br>
-<br>
-Moderate Level:<br>
-2. Create a cursor to update the commission of all employees whose designation is 'Salesman':<br>
-<br>
-DECLARE<br>
-CURSOR sales_cursor IS<br>
-&nbsp;&nbsp;&nbsp;&nbsp;SELECT emp_no, commission FROM employees WHERE designation = 'Salesman' FOR UPDATE;<br>
-v_emp_no employees.emp_no%TYPE;<br>
-v_commission employees.commission%TYPE;<br>
-BEGIN<br>
-OPEN sales_cursor;<br>
-LOOP<br>
-&nbsp;&nbsp;&nbsp;&nbsp;FETCH sales_cursor INTO v_emp_no, v_commission;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN sales_cursor%NOTFOUND;<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;UPDATE employees<br>
-&nbsp;&nbsp;&nbsp;&nbsp;SET commission = NVL(v_commission, 0) + 5000<br>
-&nbsp;&nbsp;&nbsp;&nbsp;WHERE CURRENT OF sales_cursor;<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Emp No: ' || v_emp_no || ' commission updated to: ' || (v_commission + 5000));<br>
-END LOOP;<br>
-CLOSE sales_cursor;<br>
-END;<br>
-/<br>
-<br>
-3. Display all employee information designation-wise in proper order:<br>
-<br>
-DECLARE<br>
-CURSOR emp_designation_cursor IS<br>
-&nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM employees ORDER BY designation;<br>
-v_emp employees%ROWTYPE;<br>
-BEGIN<br>
-OPEN emp_designation_cursor;<br>
-LOOP<br>
-&nbsp;&nbsp;&nbsp;&nbsp;FETCH emp_designation_cursor INTO v_emp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN emp_designation_cursor%NOTFOUND;<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Emp No: ' || v_emp.emp_no || ', Name: ' || v_emp.emp_name || ', Designation: ' || v_emp.designation || ', Salary: ' || v_emp.salary || ', Commission: ' || NVL(v_emp.commission, 0));<br>
-END LOOP;<br>
-CLOSE emp_designation_cursor;<br>
-END;<br>
-/<br>
-<br>
-Advanced Level:<br>
-4. Create a cursor to delete all employees whose designation is 'CEO':<br>
-<br>
-DECLARE<br>
-CURSOR ceo_cursor IS<br>
-&nbsp;&nbsp;&nbsp;&nbsp;SELECT emp_no FROM employees WHERE designation = 'CEO';<br>
-v_emp_no employees.emp_no%TYPE;<br>
-BEGIN<br>
-OPEN ceo_cursor;<br>
-LOOP<br>
-&nbsp;&nbsp;&nbsp;&nbsp;FETCH ceo_cursor INTO v_emp_no;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;EXIT WHEN ceo_cursor%NOTFOUND;<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;DELETE FROM employees WHERE emp_no = v_emp_no;<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;DBMS_OUTPUT.PUT_LINE('Deleted employee with Emp No: ' || v_emp_no);<br>
-END LOOP;<br>
-CLOSE ceo_cursor;<br>
-END;<br>
-/<br>
-</p>
-    <h1>5</h1>
-<p>
-DECLARE<br>
-v_emp_name VARCHAR2(50);<br>
-v_emp_details employees%ROWTYPE;<br>
-BEGIN<br>
--- Cursor to select employees named 'Alice'<br>
-FOR emp_rec IN (SELECT * FROM employees WHERE first_name = 'Alice') LOOP<br>
-v_emp_details := emp_rec;<br>
-<br>
--- Display the employee details<br>
-DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_emp_details.employee_id);<br>
-DBMS_OUTPUT.PUT_LINE('First Name: ' || v_emp_details.first_name);<br>
-DBMS_OUTPUT.PUT_LINE('Last Name: ' || v_emp_details.last_name);<br>
-DBMS_OUTPUT.PUT_LINE('Email: ' || v_emp_details.email);<br>
-DBMS_OUTPUT.PUT_LINE('Phone Number: ' || v_emp_details.phone_number);<br>
-DBMS_OUTPUT.PUT_LINE('Hire Date: ' || TO_CHAR(v_emp_details.hire_date, 'DD-MON-YYYY'));<br>
-DBMS_OUTPUT.PUT_LINE('Job ID: ' || v_emp_details.job_id);<br>
-DBMS_OUTPUT.PUT_LINE('Salary: ' || v_emp_details.salary);<br>
-DBMS_OUTPUT.PUT_LINE('Commission PCT: ' || v_emp_details.commission_pct);<br>
-DBMS_OUTPUT.PUT_LINE('Manager ID: ' || v_emp_details.manager_id);<br>
-DBMS_OUTPUT.PUT_LINE('Department ID: ' || v_emp_details.department_id);<br>
-DBMS_OUTPUT.PUT_LINE('---------------------------------');<br>
-END LOOP;<br>
-END;<br>
-/
-</p>
-<p>
-DECLARE<br>
-v_emp_details employees%ROWTYPE;<br>
-v_dept_name departments.department_name%TYPE;<br>
-BEGIN<br>
--- Cursor to select employee details along with department name<br>
-FOR emp_rec IN (SELECT e.*, d.department_name <br>
-&nbsp;&nbsp;&nbsp;&nbsp;FROM employees e <br>
-&nbsp;&nbsp;&nbsp;&nbsp;JOIN departments d ON e.department_id = d.department_id) LOOP<br>
-v_emp_details := emp_rec;<br>
-v_dept_name := emp_rec.department_name;<br>
-<br>
--- Display the employee details with department name<br>
-DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_emp_details.employee_id);<br>
-DBMS_OUTPUT.PUT_LINE('First Name: ' || v_emp_details.first_name);<br>
-DBMS_OUTPUT.PUT_LINE('Last Name: ' || v_emp_details.last_name);<br>
-DBMS_OUTPUT.PUT_LINE('Email: ' || v_emp_details.email);<br>
-DBMS_OUTPUT.PUT_LINE('Phone Number: ' || v_emp_details.phone_number);<br>
-DBMS_OUTPUT.PUT_LINE('Hire Date: ' || TO_CHAR(v_emp_details.hire_date, 'DD-MON-YYYY'));<br>
-DBMS_OUTPUT.PUT_LINE('Job ID: ' || v_emp_details.job_id);<br>
-DBMS_OUTPUT.PUT_LINE('Salary: ' || v_emp_details.salary);<br>
-DBMS_OUTPUT.PUT_LINE('Department Name: ' || v_dept_name);<br>
-DBMS_OUTPUT.PUT_LINE('---------------------------------');<br>
-END LOOP;<br>
-END;<br>
-/
+&lt;?php<br>
+function fac($a){<br>
+$factorial=1;<br>
+for ($i=1; $i&lt;=$a; $i++) { <br>
+$factorial*=$i;<br>
+}<br>
+return $factorial;<br>
+}<br>
+$a=7;<br>
+echo "Factorial of $a is ".fac($a)<br>
+?&gt;
 </p>
 
 </body>
