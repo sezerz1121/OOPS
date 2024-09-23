@@ -7,16 +7,6 @@
 </head>
 <body>
 <p>
-<!DOCTYPE html><br>
-<html lang="en"><br>
-<head><br>
-    <meta charset="UTF-8"><br>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>
-    <title>Personal Information Form</title><br>
-</head><br>
-<body><br><br>
-
-<?php<br>
 // PHP to handle form submission<br>
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {<br>
     // Handling GET request<br>
@@ -24,53 +14,51 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {<br>
     $email = htmlspecialchars($_GET['email']);<br>
     $age = htmlspecialchars($_GET['age']);<br><br>
 
-    echo "<h2>Submitted using GET Method</h2>";<br>
-    echo "Name: " . $name . "<br>";<br>
-    echo "Email: " . $email . "<br>";<br>
-    echo "Age: " . $age . "<br>";<br>
+    echo "&lt;h2&gt;Submitted using GET Method&lt;/h2&gt;";<br>
+    echo "Name: " . $name . "&lt;br&gt;";<br>
+    echo "Email: " . $email . "&lt;br&gt;";<br>
+    echo "Age: " . $age . "&lt;br&gt;";<br>
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {<br>
     // Handling POST request<br>
     $name = htmlspecialchars($_POST['name']);<br>
     $email = htmlspecialchars($_POST['email']);<br>
     $age = htmlspecialchars($_POST['age']);<br><br>
 
-    echo "<h2>Submitted using POST Method</h2>";<br>
-    echo "Name: " . $name . "<br>";<br>
-    echo "Email: " . $email . "<br>";<br>
-    echo "Age: " . $age . "<br>";<br>
+    echo "&lt;h2&gt;Submitted using POST Method&lt;/h2&gt;";<br>
+    echo "Name: " . $name . "&lt;br&gt;";<br>
+    echo "Email: " . $email . "&lt;br&gt;";<br>
+    echo "Age: " . $age . "&lt;br&gt;";<br>
 }<br>
-?><br><br>
+</p>
 
-<h2>Personal Information (GET Method)</h2><br>
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get"><br>
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name" required><br><br><br>
+<p>&lt;h2&gt;Personal Information (GET Method)&lt;/h2&gt;</p>
+<p>&lt;form action="&lt;?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?&gt;" method="get"&gt;<br>
+    &lt;label for="name"&gt;Name:&lt;/label&gt;<br>
+    &lt;input type="text" id="name" name="name" required&gt;&lt;br&gt;&lt;br&gt;<br><br>
 
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" required><br><br><br>
+    &lt;label for="email"&gt;Email:&lt;/label&gt;<br>
+    &lt;input type="email" id="email" name="email" required&gt;&lt;br&gt;&lt;br&gt;<br><br>
 
-    <label for="age">Age:</label><br>
-    <input type="number" id="age" name="age" required><br><br><br>
+    &lt;label for="age"&gt;Age:&lt;/label&gt;<br>
+    &lt;input type="number" id="age" name="age" required&gt;&lt;br&gt;&lt;br&gt;<br><br>
 
-    <input type="submit" value="Submit via GET"><br>
-</form><br><br>
+    &lt;input type="submit" value="Submit via GET"&gt;<br>
+&lt;/form&gt;<br>
+</p>
 
-<h2>Personal Information (POST Method)</h2><br>
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post"><br>
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name" required><br><br><br>
+<p>&lt;h2&gt;Personal Information (POST Method)&lt;/h2&gt;</p>
+<p>&lt;form action="&lt;?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?&gt;" method="post"&gt;<br>
+    &lt;label for="name"&gt;Name:&lt;/label&gt;<br>
+    &lt;input type="text" id="name" name="name" required&gt;&lt;br&gt;&lt;br&gt;<br><br>
 
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" required><br><br><br>
+    &lt;label for="email"&gt;Email:&lt;/label&gt;<br>
+    &lt;input type="email" id="email" name="email" required&gt;&lt;br&gt;&lt;br&gt;<br><br>
 
-    <label for="age">Age:</label><br>
-    <input type="number" id="age" name="age" required><br><br><br>
+    &lt;label for="age"&gt;Age:&lt;/label&gt;<br>
+    &lt;input type="number" id="age" name="age" required&gt;&lt;br&gt;&lt;br&gt;<br><br>
 
-    <input type="submit" value="Submit via POST"><br>
-</form><br><br>
-
-</body><br>
-</html>
+    &lt;input type="submit" value="Submit via POST"&gt;<br>
+&lt;/form&gt;<br>
 </p>
 
 </body>
