@@ -7,38 +7,71 @@
 </head>
 <body>
 <p>
-&lt;?php<br>
-function fac($a){<br>
-$factorial=1;<br>
-for ($i=1; $i&lt;=$a; $i++) { <br>
-$factorial*=$i;<br>
+<!DOCTYPE html><br>
+<html lang="en"><br>
+<head><br>
+    <meta charset="UTF-8"><br>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>
+    <title>Personal Information Form</title><br>
+</head><br>
+<body><br><br>
+
+<?php<br>
+// PHP to handle form submission<br>
+if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {<br>
+    // Handling GET request<br>
+    $name = htmlspecialchars($_GET['name']);<br>
+    $email = htmlspecialchars($_GET['email']);<br>
+    $age = htmlspecialchars($_GET['age']);<br><br>
+
+    echo "<h2>Submitted using GET Method</h2>";<br>
+    echo "Name: " . $name . "<br>";<br>
+    echo "Email: " . $email . "<br>";<br>
+    echo "Age: " . $age . "<br>";<br>
+} elseif ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {<br>
+    // Handling POST request<br>
+    $name = htmlspecialchars($_POST['name']);<br>
+    $email = htmlspecialchars($_POST['email']);<br>
+    $age = htmlspecialchars($_POST['age']);<br><br>
+
+    echo "<h2>Submitted using POST Method</h2>";<br>
+    echo "Name: " . $name . "<br>";<br>
+    echo "Email: " . $email . "<br>";<br>
+    echo "Age: " . $age . "<br>";<br>
 }<br>
-return $factorial;<br>
-}<br>
-$a=7;<br>
-echo "Factorial of $a is ".fac($a)<br>
-?&gt;
+?><br><br>
+
+<h2>Personal Information (GET Method)</h2><br>
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get"><br>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br><br>
+
+    <label for="age">Age:</label><br>
+    <input type="number" id="age" name="age" required><br><br><br>
+
+    <input type="submit" value="Submit via GET"><br>
+</form><br><br>
+
+<h2>Personal Information (POST Method)</h2><br>
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post"><br>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br><br>
+
+    <label for="age">Age:</label><br>
+    <input type="number" id="age" name="age" required><br><br><br>
+
+    <input type="submit" value="Submit via POST"><br>
+</form><br><br>
+
+</body><br>
+</html>
 </p>
-<p>
-&lt;?php<br>
-function prime($number){<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if($number==1) return false;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;for ($i=2; $i&lt;=sqrt($number); $i++);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if ($number%$i==0) return false;{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
-&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
-}<br>
-$number=22;<br>
-if (prime($number)) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;echo 'number is prime ';<br>
-}<br>
-else {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;echo 'number is not prime ';<br>
-}<br>
-?&gt;
-</p>
-<p><?php<br>function prime($number){<br>if($number==1) return false;<br>for ($i=2; $i<=sqrt($number); $i++);<br>if ($number%$i==0) return false;<br>}<br>return true;<br>}<br>$number=22;<br>if (prime($number)) {<br>echo 'number is prime ';<br>}<br>else {<br>echo 'number is not prime ';<br>}<br>?></p>
-<p><?php<br>function rev($a){<br>if(strlen($a)==0){<br>return $a;<br>}<br>else {<br>return rev(substr($a,1)).$a[0];<br>}<br>}<br>$a="computer";<br>echo rev($a);<br>?></p>
-<p><?php<br>function sortarray($array){<br>sort($array);<br>return $array;<br>}<br>$array=array(7,5,3,1);<br>$sortedarray=sortarray($array);<br>print_r($sortedarray);<br>?></p>
+
 </body>
 </html>
